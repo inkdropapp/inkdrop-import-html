@@ -1,0 +1,14 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": "chrome >= 56.0.2924.87"
+      }
+    }],
+    "react",
+    "flow"
+  ],
+  "plugins": [
+    "transform-function-bind"
+  ]
+}
