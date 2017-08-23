@@ -15,10 +15,10 @@ export function openImportDialog () {
   })
 }
 
-export function importHTMLFromMultipleFiles (files, destBookId) {
+export async function importHTMLFromMultipleFiles (files, destBookId) {
   try {
     for (let i = 0; i < files.length; ++i) {
-      importHTMLFromFile(files[i], destBookId)
+      await importHTMLFromFile(files[i], destBookId)
     }
   } catch (e) {
     inkdrop.notifications.addError('Failed to import the HTML file', { detail: e.stack, dismissable: true })
