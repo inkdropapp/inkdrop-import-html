@@ -38,25 +38,28 @@ export async function importHTMLFromFile (fn, destBookId) {
 }
 
 export function convertToMarkdown (html) {
-  const md = toMarkdown(html, { converters: [
-    {
-      filter: ['div', 'p'],
-      replacement (innerHTML) {
-        return '\n' + innerHTML + '\n'
+  const md = toMarkdown(html, {
+    gfm: true,
+    converters: [
+      {
+        filter: ['div', 'p'],
+        replacement (innerHTML) {
+          return '\n' + innerHTML + '\n'
+        }
+      },
+      {
+        filter: ['span'],
+        replacement (innerHTML) {
+          return innerHTML
+        }
+      },
+      {
+        filter: ['img'],
+        replacement (innerHTML, node) {
+          return '' // not supported, yet
+        }
       }
-    },
-    {
-      filter: ['span'],
-      replacement (innerHTML) {
-        return innerHTML
-      }
-    },
-    {
-      filter: ['img'],
-      replacement (innerHTML, node) {
-        return '' // not supported, yet
-      }
-    }
-  ]})
+    ]
+  })
   return md
 }
