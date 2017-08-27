@@ -9,7 +9,7 @@ export function openImportDialog () {
   return dialog.showOpenDialog({
     title: 'Open HTML file',
     properties: [
-      'multiSelections'
+      'openFile', 'multiSelections'
     ],
     filters: [
       { name: 'HTML Files', extensions: [ 'html' ] }
