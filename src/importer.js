@@ -8,7 +8,9 @@ const { Note } = inkdrop.models
 export function openImportDialog () {
   return dialog.showOpenDialog({
     title: 'Open HTML file',
-    multiSelections: true,
+    properties: [
+      'multiSelections'
+    ],
     filters: [
       { name: 'HTML Files', extensions: [ 'html' ] }
     ]
