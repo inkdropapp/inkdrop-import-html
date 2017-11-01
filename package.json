@@ -5,7 +5,8 @@
   "description": "A plugin for importing notes from HTML files",
   "keywords": [],
   "scripts": {
-    "build": "babel src/ -d lib/"
+    "build": "babel src/ -d lib/",
+    "dev": "babel --watch src/ -d lib/"
   },
   "repository": "https://github.com/inkdropapp/inkdrop-import-html",
   "license": "MIT",
