@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import { remote } from 'electron'
 import toMarkdown from 'to-markdown'
+import { jsdom } from 'jsdom'
 const { dialog } = remote
 const { Note } = inkdrop.models
 
@@ -27,6 +28,43 @@ export async function importHTMLFromMultipleFiles (files, destBookId) {
   }
 }
 
+function parseMetaTag (dom, metaName) {
+  if (!dom) {
+    throw new Error('Invalid DOM')
+  }
+  const meta = dom.querySelector(`meta[name=${metaName}]`)
+  if (meta) {
+    const content = meta.attributes['content']
+    if (content) {
+      return content.value
+    }
+  }
+  return false
+}
+
+function getMetaFromHTML (html) {
+  const dom = jsdom(html)
+  console.log('DOM:', dom)
+  const meta = {
+    tags: [],
+    createdAt: +new Date(),
+    updatedAt: +new Date()
+  }
+  const keywords = parseMetaTag(dom, 'keywords')
+  if (keywords) {
+    meta.tags = keywords.split(',').map((tag) => tag.trim())
+  }
+  const created = parseMetaTag(dom, 'created')
+  if (created) {
+    meta.createdAt = +new Date(created)
+  }
+  const updated = parseMetaTag(dom, 'updated')
+  if (updated) {
+    meta.updatedAt = +new Date(updated)
+  }
+  return meta
+}
+
 export async function importHTMLFromFile (fn, destBookId) {
   if (!destBookId) {
     throw new Error('Destination notebook ID is not specified.')
@@ -34,7 +72,9 @@ export async function importHTMLFromFile (fn, destBookId) {
   const html = fs.readFileSync(fn, 'utf-8')
   const title = path.basename(fn, path.extname(fn))
   const body = convertToMarkdown(html)
-  const note = new Note({ title, body })
+  const { tags, createdAt, updatedAt } = getMetaFromHTML(html)
+
+  const note = new Note({ title, body, tags, createdAt, updatedAt })
   note.bookId = destBookId
   await note.save()
 }
@@ -44,15 +84,21 @@ export function convertToMarkdown (html) {
     gfm: true,
     converters: [
       {
-        filter: ['div', 'p'],
+        filter: ['div', 'p', 'dt', 'dd', 'summary'],
         replacement (innerHTML) {
           return '\n' + innerHTML + '\n'
         }
       },
       {
-        filter: ['span'],
+        filter: ['font', 'span', 'pre', 'article', 'section', 'nav', 'button', 'main', 'footer', 'header', 'aside', 'details', 'u', 'samp', 'var', 'kbd', 'legend', 'mark', 'output', 'small', 'sub', 'sup'],
         replacement (innerHTML) {
           return innerHTML
+        }
+      },
+      {
+        filter: ['input', 'form', 'iframe', 'canvas', 'embed', 'select', 'rt', 'wbr'],
+        replacement (innerHTML) {
+          return ''
         }
       },
       {
