@@ -44,7 +44,6 @@ function parseMetaTag (dom, metaName) {
 
 function getMetaFromHTML (html) {
   const dom = jsdom(html)
-  console.log('DOM:', dom)
   const meta = {
     tags: [],
     createdAt: +new Date(),
