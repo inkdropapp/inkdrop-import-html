@@ -61,6 +61,10 @@ function getMetaFromHTML (html) {
   if (updated) {
     meta.updatedAt = +new Date(updated)
   }
+  const titleTag = dom.querySelector('title')
+  if (titleTag) {
+    meta.title = titleTag.text
+  }
   return meta
 }
 
@@ -69,11 +73,11 @@ export async function importHTMLFromFile (fn, destBookId) {
     throw new Error('Destination notebook ID is not specified.')
   }
   const html = fs.readFileSync(fn, 'utf-8')
-  const title = path.basename(fn, path.extname(fn))
+  const titleFromFileName = path.basename(fn, path.extname(fn))
   const body = convertToMarkdown(html)
-  const { tags, createdAt, updatedAt } = getMetaFromHTML(html)
+  const { tags, createdAt, updatedAt, title } = getMetaFromHTML(html)
 
-  const note = new Note({ title, body, tags, createdAt, updatedAt })
+  const note = new Note({ title: title || titleFromFileName, body, tags, createdAt, updatedAt })
   note.bookId = destBookId
   await note.save()
 }
