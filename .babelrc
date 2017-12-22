@@ -5,8 +5,7 @@
         "browsers": "chrome >= 56.0.2924.87"
       }
     }],
-    "react",
-    "flow"
+    "react"
   ],
   "plugins": [
     "transform-function-bind"
