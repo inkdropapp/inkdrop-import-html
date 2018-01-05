@@ -1,5 +1,4 @@
 import { React, CompositeDisposable } from 'inkdrop'
-import { openImportDialog, importHTMLFromMultipleFiles } from './importer'
 
 export default class SelectBookDialog extends React.Component {
   constructor (props) {
@@ -72,6 +71,7 @@ export default class SelectBookDialog extends React.Component {
 
   handleDismissDialog (dialog, buttonIndex) {
     if (buttonIndex === 1) {
+      const { openImportDialog, importHTMLFromMultipleFiles } = require('./importer')
       const { destBookId } = this.state
       if (!destBookId) {
         this.setState({ formErrorMessageVisible: true })
