@@ -2,33 +2,32 @@ import path from 'path'
 import fs from 'fs'
 import { remote } from 'electron'
 import { html2markdown } from 'inkdrop'
-const { jsdom } = require.main.require('jsdom')
+import { JSDOM } from 'jsdom'
 const { dialog } = remote
 const { Note } = inkdrop.models
 
-export function openImportDialog () {
+export function openImportDialog() {
   return dialog.showOpenDialog({
     title: 'Open HTML file',
-    properties: [
-      'openFile', 'multiSelections'
-    ],
-    filters: [
-      { name: 'HTML Files', extensions: [ 'html' ] }
-    ]
+    properties: ['openFile', 'multiSelections'],
+    filters: [{ name: 'HTML Files', extensions: ['html'] }]
   })
 }
 
-export async function importHTMLFromMultipleFiles (files, destBookId) {
+export async function importHTMLFromMultipleFiles(files, destBookId) {
   try {
     for (let i = 0; i < files.length; ++i) {
       await importHTMLFromFile(files[i], destBookId)
     }
   } catch (e) {
-    inkdrop.notifications.addError('Failed to import the HTML file', { detail: e.stack, dismissable: true })
+    inkdrop.notifications.addError('Failed to import the HTML file', {
+      detail: e.stack,
+      dismissable: true
+    })
   }
 }
 
-function parseMetaTag (dom, metaName) {
+function parseMetaTag(dom, metaName) {
   if (!dom) {
     throw new Error('Invalid DOM')
   }
@@ -42,8 +41,8 @@ function parseMetaTag (dom, metaName) {
   return false
 }
 
-function getMetaFromHTML (html) {
-  const dom = jsdom(html)
+function getMetaFromHTML(html) {
+  const dom = new JSDOM(html).window.document
   const meta = {
     tags: [],
     createdAt: +new Date(),
@@ -51,7 +50,7 @@ function getMetaFromHTML (html) {
   }
   const keywords = parseMetaTag(dom, 'keywords')
   if (keywords) {
-    meta.tags = keywords.split(',').map((tag) => tag.trim())
+    meta.tags = keywords.split(',').map(tag => tag.trim())
   }
   const created = parseMetaTag(dom, 'created')
   if (created) {
@@ -68,7 +67,7 @@ function getMetaFromHTML (html) {
   return meta
 }
 
-export async function importHTMLFromFile (fn, destBookId) {
+export async function importHTMLFromFile(fn, destBookId) {
   if (!destBookId) {
     throw new Error('Destination notebook ID is not specified.')
   }
@@ -77,7 +76,13 @@ export async function importHTMLFromFile (fn, destBookId) {
   const body = html2markdown(html)
   const { tags, createdAt, updatedAt, title } = getMetaFromHTML(html)
 
-  const note = new Note({ title: title || titleFromFileName, body, tags, createdAt, updatedAt })
+  const note = new Note({
+    title: title || titleFromFileName,
+    body,
+    tags,
+    createdAt,
+    updatedAt
+  })
   note.bookId = destBookId
   await note.save()
 }
