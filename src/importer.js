@@ -1,10 +1,10 @@
 import path from 'path'
 import fs from 'fs'
 import { remote } from 'electron'
-import { html2markdown } from 'inkdrop'
+import { html2markdown, models } from 'inkdrop'
 import { JSDOM } from 'jsdom'
 const { dialog } = remote
-const { Note } = inkdrop.models
+const { Note } = models
 
 export function openImportDialog() {
   return dialog.showOpenDialog({
@@ -71,10 +71,14 @@ export async function importHTMLFromFile(fn, destBookId) {
   if (!destBookId) {
     throw new Error('Destination notebook ID is not specified.')
   }
+  if (!destBookId.startsWith('book:')) {
+    throw new Error('Invalid destination notebook ID specified: ' + destBookId)
+  }
   const html = fs.readFileSync(fn, 'utf-8')
   const titleFromFileName = path.basename(fn, path.extname(fn))
   const body = html2markdown(html)
   const { tags, createdAt, updatedAt, title } = getMetaFromHTML(html)
+  console.log('bosy:', body)
 
   const note = new Note({
     title: title || titleFromFileName,
