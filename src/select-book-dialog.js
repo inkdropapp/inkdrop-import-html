@@ -41,14 +41,16 @@ export default class ImportHTMLSelectNotebookDialog extends React.Component {
     this.importHTMLFile(bookId)
   }
 
-  importHTMLFile = destBookId => {
+  importHTMLFile = async destBookId => {
+    const { dialog } = this
     const {
       openImportDialog,
       importHTMLFromMultipleFiles
     } = require('./importer')
     const files = openImportDialog()
     if (files) {
-      importHTMLFromMultipleFiles(files, destBookId)
+      dialog.dismissDialog(-1)
+      await importHTMLFromMultipleFiles(files, destBookId)
     } else {
       return false
     }

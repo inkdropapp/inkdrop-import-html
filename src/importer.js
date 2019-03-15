@@ -78,7 +78,6 @@ export async function importHTMLFromFile(fn, destBookId) {
   const titleFromFileName = path.basename(fn, path.extname(fn))
   const body = html2markdown(html)
   const { tags, createdAt, updatedAt, title } = getMetaFromHTML(html)
-  console.log('bosy:', body)
 
   const note = new Note({
     title: title || titleFromFileName,
