@@ -13,7 +13,7 @@ export default class ImportHTMLSelectNotebookDialog extends React.Component {
   }
 
   render() {
-    const { MessageDialog, NotebooklistBar } = inkdrop.components.classes
+    const { MessageDialog, NotebookListBar } = inkdrop.components.classes
     const buttons = [
       {
         label: 'Cancel',
@@ -30,7 +30,7 @@ export default class ImportHTMLSelectNotebookDialog extends React.Component {
       >
         <div className="ui form">
           <div className="field">
-            <NotebooklistBar onItemSelect={this.handleNotebookSelect} />
+            <NotebookListBar onItemSelect={this.handleNotebookSelect} />
           </div>
         </div>
       </MessageDialog>
