@@ -20,6 +20,7 @@ export default class ImportHTMLSelectNotebookDialog extends React.Component {
         cancel: true
       }
     ]
+    if (!MessageDialog || !NotebookListBar) return null
     return (
       <MessageDialog
         className="import-html-select-notebook-dialog"
