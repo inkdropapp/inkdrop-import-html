@@ -11,7 +11,7 @@
   "repository": "https://github.com/inkdropapp/inkdrop-import-html",
   "license": "MIT",
   "engines": {
-    "inkdrop": "^4.x"
+    "inkdrop": "^5.x"
   },
   "dependencies": {},
   "devDependencies": {
