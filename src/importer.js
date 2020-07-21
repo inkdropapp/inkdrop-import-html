@@ -2,7 +2,6 @@ import path from 'path'
 import fs from 'fs'
 import { remote } from 'electron'
 import { html2markdown, extractMetaFromHtml, models } from 'inkdrop'
-import { JSDOM } from 'jsdom'
 const { dialog } = remote
 const { Note } = models
 
