@@ -14,7 +14,7 @@
     "inkdrop": "^5.x"
   },
   "dependencies": {
-    "inkdrop-import-utils": "^1.0.1"
+    "inkdrop-import-utils": "^1.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
