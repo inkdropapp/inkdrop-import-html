@@ -13,7 +13,7 @@
     "inkdrop": "^5.x"
   },
   "dependencies": {
-    "inkdrop-import-utils": "^1.0.4"
+    "inkdrop-import-utils": "^1.0.5"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.3",
