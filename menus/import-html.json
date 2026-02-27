@@ -6,7 +6,10 @@
         {
           "label": "Import",
           "submenu": [
-            { "label": "from HTML files..", "command": "import-html:import-from-file" }
+            {
+              "label": "from HTML files..",
+              "command": "import-html:import-from-file"
+            }
           ]
         }
       ]
