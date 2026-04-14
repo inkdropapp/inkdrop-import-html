@@ -2,6 +2,7 @@
   "name": "import-html",
   "main": "./lib/index.js",
   "version": "2.2.1",
+  "builtin": true,
   "description": "A plugin for importing notes from HTML files",
   "keywords": [],
   "scripts": {
