@@ -1,12 +1,6 @@
-const { importUtils } = require('inkdrop')
+import { importUtils } from 'inkdrop'
 
-module.exports = {
-  openImportDialog,
-  importHTMLFromMultipleFiles,
-  importHTMLFromFile
-}
-
-function openImportDialog() {
+export function openImportDialog() {
   return inkdrop.dialog.showOpenDialog({
     title: 'Open HTML file',
     properties: ['openFile', 'multiSelections'],
@@ -14,19 +8,22 @@ function openImportDialog() {
   })
 }
 
-async function importHTMLFromMultipleFiles(files, destBookId) {
+export async function importHTMLFromMultipleFiles(
+  files: string[],
+  destBookId: string
+) {
   try {
     for (let i = 0; i < files.length; ++i) {
       await importHTMLFromFile(files[i], destBookId)
     }
   } catch (e) {
     inkdrop.notifications.addError('Failed to import the HTML file', {
-      detail: e.stack,
+      detail: e instanceof Error ? e.stack : String(e),
       dismissable: true
     })
   }
 }
 
-async function importHTMLFromFile(fn, destBookId) {
+export async function importHTMLFromFile(fn: string, destBookId: string) {
   return importUtils.importHtmlFile(fn, destBookId)
 }

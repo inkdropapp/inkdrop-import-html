@@ -1,13 +1,13 @@
-const ImportHTMLSelectNotebookDialog = require('./select-book-dialog')
+import ImportHTMLSelectNotebookDialog from './select-book-dialog.js'
 
-module.exports = {
+class InkdropPlugin {
   activate() {
     inkdrop.components.registerClass(ImportHTMLSelectNotebookDialog)
     inkdrop.layouts.addComponentToLayout(
       'modal',
       'ImportHTMLSelectNotebookDialog'
     )
-  },
+  }
 
   deactivate() {
     inkdrop.layouts.removeComponentFromLayout(
@@ -17,3 +17,6 @@ module.exports = {
     inkdrop.components.deleteClass(ImportHTMLSelectNotebookDialog)
   }
 }
+
+const plugin = new InkdropPlugin()
+export default plugin

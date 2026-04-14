@@ -1,33 +1,31 @@
-'use babel'
-
 import { useEffect, useCallback } from 'react'
 import { useModal } from 'inkdrop'
+import { openImportDialog, importHTMLFromMultipleFiles } from './importer'
 
-const ImportHTMLSelectNotebookDialog = _props => {
-  const { NotebookListBar } = inkdrop.components.classes
+const ImportHTMLSelectNotebookDialog = () => {
+  const NotebookListBar = inkdrop.components.classes.NotebookListBar as any
   const modal = useModal()
-  const { Dialog } = inkdrop.components.classes
+  const Dialog = inkdrop.components.classes.Dialog as any
 
   const showDialog = useCallback(() => {
     modal.show()
   }, [modal])
 
-  const importHTMLFile = useCallback(async destBookId => {
-    const {
-      openImportDialog,
-      importHTMLFromMultipleFiles
-    } = require('./importer')
-    const { filePaths } = await openImportDialog()
-    if (filePaths) {
-      modal.close()
-      await importHTMLFromMultipleFiles(filePaths, destBookId)
-    } else {
-      return false
-    }
-  }, [modal])
+  const importHTMLFile = useCallback(
+    async (destBookId: string) => {
+      const { filePaths } = await openImportDialog()
+      if (filePaths) {
+        modal.close()
+        await importHTMLFromMultipleFiles(filePaths, destBookId)
+      } else {
+        return false
+      }
+    },
+    [modal]
+  )
 
   const handleNotebookSelect = useCallback(
-    bookId => {
+    (bookId: string) => {
       importHTMLFile(bookId)
     },
     [importHTMLFile]
