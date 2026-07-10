@@ -1,14 +1,19 @@
+import type { Environment, IInkdropPlugin } from '@inkdropapp/types'
+
+import { setEnv } from './env.js'
 import ImportHTMLSelectNotebookDialog from './select-book-dialog.js'
 
-class InkdropPlugin {
-  activate() {
-    inkdrop.components.registerClass(ImportHTMLSelectNotebookDialog)
-    inkdrop.layouts.addComponentToLayout('modal', 'ImportHTMLSelectNotebookDialog')
+class InkdropPlugin implements IInkdropPlugin {
+  activate(env: Environment) {
+    setEnv(env)
+    env.components.registerClass(ImportHTMLSelectNotebookDialog)
+    env.layouts.addComponentToLayout('modal', 'ImportHTMLSelectNotebookDialog')
   }
 
-  deactivate() {
-    inkdrop.layouts.removeComponentFromLayout('modal', 'ImportHTMLSelectNotebookDialog')
-    inkdrop.components.deleteClass(ImportHTMLSelectNotebookDialog)
+  deactivate(env: Environment) {
+    env.layouts.removeComponentFromLayout('modal', 'ImportHTMLSelectNotebookDialog')
+    env.components.deleteClass(ImportHTMLSelectNotebookDialog)
+    setEnv(undefined)
   }
 }
 

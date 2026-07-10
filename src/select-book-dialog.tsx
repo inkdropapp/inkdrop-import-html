@@ -1,12 +1,13 @@
 import { useModal } from 'inkdrop'
 import { useEffect, useCallback } from 'react'
 
+import { getEnv } from './env.js'
 import { openImportDialog, importHTMLFromMultipleFiles } from './importer'
 
 const ImportHTMLSelectNotebookDialog = () => {
-  const NotebookListBar = inkdrop.components.classes.NotebookListBar as any
+  const NotebookListBar = getEnv().components.classes.NotebookListBar as any
   const modal = useModal()
-  const Dialog = inkdrop.components.classes.Dialog as any
+  const Dialog = getEnv().components.classes.Dialog as any
 
   const showDialog = useCallback(() => {
     modal.show()
@@ -33,7 +34,7 @@ const ImportHTMLSelectNotebookDialog = () => {
   )
 
   useEffect(() => {
-    const sub = inkdrop.commands.add(document.body, {
+    const sub = getEnv().commands.add(document.body, {
       'import-html:import-from-file': showDialog
     })
     return () => sub.dispose()

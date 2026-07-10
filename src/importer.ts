@@ -1,7 +1,9 @@
 import { importUtils } from 'inkdrop'
 
+import { getEnv } from './env.js'
+
 export function openImportDialog() {
-  return inkdrop.dialog.showOpenDialog({
+  return getEnv().dialog.showOpenDialog({
     title: 'Open HTML file',
     properties: ['openFile', 'multiSelections'],
     filters: [{ name: 'HTML Files', extensions: ['html', 'htm'] }]
@@ -14,7 +16,7 @@ export async function importHTMLFromMultipleFiles(files: string[], destBookId: s
       await importHTMLFromFile(files[i], destBookId)
     }
   } catch (e) {
-    inkdrop.notifications.addError('Failed to import the HTML file', {
+    getEnv().notifications.addError('Failed to import the HTML file', {
       detail: e instanceof Error ? e.stack : String(e),
       dismissable: true
     })
