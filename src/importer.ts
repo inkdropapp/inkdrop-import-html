@@ -8,10 +8,7 @@ export function openImportDialog() {
   })
 }
 
-export async function importHTMLFromMultipleFiles(
-  files: string[],
-  destBookId: string
-) {
+export async function importHTMLFromMultipleFiles(files: string[], destBookId: string) {
   try {
     for (let i = 0; i < files.length; ++i) {
       await importHTMLFromFile(files[i], destBookId)

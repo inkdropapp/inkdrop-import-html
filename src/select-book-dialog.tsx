@@ -1,5 +1,6 @@
-import { useEffect, useCallback } from 'react'
 import { useModal } from 'inkdrop'
+import { useEffect, useCallback } from 'react'
+
 import { openImportDialog, importHTMLFromMultipleFiles } from './importer'
 
 const ImportHTMLSelectNotebookDialog = () => {
