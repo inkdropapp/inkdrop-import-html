@@ -1,0 +1,6 @@
+.modal-container.import-html-wizard-dialog {
+  &.import-html-wizard-dialog--notebook {
+    align-items: flex-start;
+    padding-top: 3em;
+  }
+}

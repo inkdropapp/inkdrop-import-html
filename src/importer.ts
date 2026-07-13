@@ -10,16 +10,16 @@ export function openImportDialog() {
   })
 }
 
-export async function importHTMLFromMultipleFiles(files: string[], destBookId: string) {
-  try {
-    for (let i = 0; i < files.length; ++i) {
-      await importHTMLFromFile(files[i], destBookId)
-    }
-  } catch (e) {
-    getEnv().notifications.addError('Failed to import the HTML file', {
-      detail: e instanceof Error ? e.stack : String(e),
-      dismissable: true
-    })
+type ProgressCallback = (filePath: string) => void
+
+export async function importHTMLFromMultipleFiles(
+  files: string[],
+  destBookId: string,
+  progressCallback?: ProgressCallback
+) {
+  for (const fp of files) {
+    progressCallback?.(fp)
+    await importHTMLFromFile(fp, destBookId)
   }
 }
 
