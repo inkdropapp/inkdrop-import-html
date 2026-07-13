@@ -51,7 +51,7 @@ const ImportHTMLSelectNotebookDialog = () => {
       <Dialog.Title>Import Notes from HTML</Dialog.Title>
       <Dialog.Content flex>
         <div className="ui message" style={{ flex: '0 0' }}>
-          Please select a notebook
+          Please select a target notebook
         </div>
         <NotebookListBar onItemSelect={handleNotebookSelect} />
       </Dialog.Content>
